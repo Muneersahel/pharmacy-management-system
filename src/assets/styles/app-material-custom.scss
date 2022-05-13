@@ -1,0 +1,24 @@
+.mat-input-width-auto {
+  .mat-form-field-infix {
+    // Fix material inputs with min width set to 180px
+    width: auto;
+  }
+}
+
+.mat-icon {
+  vertical-align: bottom;
+}
+
+.snackbar-long-text {
+  span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
+
+.mat-header-row {
+  height: 35px !important;
+}
+@mixin custom-components-theme($theme) {
+  @include notification-theme($notification);
+}

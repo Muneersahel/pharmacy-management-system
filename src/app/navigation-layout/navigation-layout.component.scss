@@ -1,0 +1,26 @@
+@import "src/assets/styles/app-variables.scss";
+
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 250px;
+  padding-top: 10%;
+  padding: 10% 1rem;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.mat-list-item {
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.mat-list-item.active {
+  color: $primary-dark;
+}

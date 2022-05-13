@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+//Grid
+@import "~bootstrap/scss/vendor/rfs";
+@import "~bootstrap/scss/containers";
+@import "~bootstrap/scss/grid";
+//Reboot
+@import "~bootstrap/scss/reboot";
+//Utilities
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/utilities/api";
+
+@import "assets/styles/app-variables";
+@import "assets/styles/app-material-theme";
+@import "assets/styles/app-font";
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: $default-text-color;
+  font-family: $font-family;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  a {
+    color: $primary-main;
+  }
+}
+
+img {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+input:-webkit-autofill {
+  box-shadow: 0 0 0 30px #fff inset;
+  -webkit-box-shadow: 0 0 0 30px #fff inset;
+}
+
+.mat-form-field-subscript-wrapper {
+  font-size: 85%;
+}

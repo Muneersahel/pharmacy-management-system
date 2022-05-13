@@ -1,0 +1,38 @@
+$header-height: 46px;
+$font-family: Roboto, "Helvetica Neue", sans-serif;
+$font-size: 14px;
+$font-size-xs: 10px !default;
+$font-size-sm: 12px !default;
+$font-size-lg: 16px !default;
+$font-weight: 300;
+$font-weight-regular: 400;
+$font-weight-bold: 500;
+$font-weight-bolder: 600;
+
+$line-height: calc(28 / 14) !default;
+$line-height-sm: 1.2 !default;
+$line-height-lg: 1.5 !default;
+$line-height-em: $line-height * 1em;
+
+$margin-x-sm: 12px;
+$margin-y-sm: 8px;
+$margin-x: 24px;
+$margin-y: 16px;
+
+$padding-x-sm: $margin-x-sm;
+$padding-y-sm: $margin-y-sm;
+$padding-x: $margin-x;
+$padding-y: $margin-y;
+
+$default-text-color: #212121;
+$light-grey-color: #eeeeee;
+$dark-grey-color: #bdbdbd;
+$border-radius: 0.5rem;
+$primary-main: #43a047;
+$primary-dark: #2e7d32;
+$accent-color: #303f9f;
+$success-color: #8bc34a;
+$error-color: #f44336;
+$info-color: #03a9f4;
+$warn-color: #ff9800;
+$background-color: #fafafa;
