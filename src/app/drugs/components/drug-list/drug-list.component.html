@@ -1,0 +1,16 @@
+<section class="d-flex flex-column gap-3">
+    <header class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">Drug List ()</h2>
+        <button mat-raised-button color="primary" (click)="onAddDrug()">
+            Add Drug
+        </button>
+    </header>
+    <main class="row g-3" *ngIf="!isLoading; else loadDrugs">
+        <div class="col-12 col-md-4" *ngFor="let user of drugList">
+            <!-- <app-user-card (deleteUser)="deleteUser($event)" [user]="user"></app-user-card> -->
+        </div>
+    </main>
+    <ng-template #loadDrugs>
+        <app-loading></app-loading>
+    </ng-template>
+</section>

@@ -12,7 +12,7 @@ export class AuthInterceptorInterceptor implements HttpInterceptor {
   constructor(private authS: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler) {
-    const loadedUser = <AuthUser>this.authS.getAuthUser();
+    const loadedUser = <AuthUser>this.authS.getStoredAuthUser();
 
     if (loadedUser?.accessToken) {
       request = request.clone({

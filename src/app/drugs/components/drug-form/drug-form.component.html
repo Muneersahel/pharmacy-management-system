@@ -1,0 +1,76 @@
+<section class="d-flex flex-column gap-3">
+    <header class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">New Drug</h2>
+        <button mat-raised-button color="primary" (click)="backToDrugList()">
+            Back to List
+        </button>
+    </header>
+
+    <main>
+        <mat-card>
+            <form [formGroup]="drugFormGroup" (ngSubmit)="onSubmitDrugForm()">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Drug Name</mat-label>
+                    <input type="text" name="drug-name" matInput formControlName="name" placeholder="Enter drug name">
+                    <mat-error *ngIf="drugFormGroup.get('name')?.hasError('required')">
+                        Drug name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Drug Description</mat-label>
+                    <textarea name="drug-description" rows="5" matInput formControlName="description"
+                        placeholder="Enter drug description"></textarea>
+                    <mat-error *ngIf="drugFormGroup.get('description')?.hasError('required')">
+                        Drug description is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Drug Price</mat-label>
+                    <span matPrefix>TZS &nbsp;</span>
+                    <input type="number" min="0" inputmode="numeric" name="drug-price" matInput formControlName="price"
+                        placeholder="Enter drug price">
+                    <mat-error *ngIf="drugFormGroup.get('price')?.hasError('required')">
+                        Drug price is required
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="mb-5">
+                    <label class="mb-2">DRUG IMAGE</label>
+                    <div>
+                        <label>
+                            <!-- <button class="file-input" type="button" name="resume" (click)=filePicker.click()></button> -->
+                            <input type="file" #filePicker (change)="onImagePicked($event)">
+                            <!-- <span class="file-cta">
+                                <span class="file-icon">
+                                    <mat-icon>upload</mat-icon>
+                                </span>
+                            </span> -->
+                        </label>
+                    </div>
+                    <div class="mt-2"
+                        *ngIf="imgPreviewLocalURL !== '' && imgPreviewLocalURL && drugFormGroup.get('image')?.valid">
+                        <img [ngStyle]="{'max-width': '10rem', 'max-height': '10rem'}" [src]="imgPreviewLocalURL"
+                            [alt]="drugFormGroup.value.name">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button mat-raised-button color="primary" class="px-5 py-1" type="submit" [disabled]="isLoading">
+                        <div class="d-flex align-items-center">
+                            <mat-spinner *ngIf="isLoading" [diameter]="20" [strokeWidth]="3"></mat-spinner>
+                            <ng-container *ngIf="mode=='create'">
+                                {{ isLoading ? ' Saving...' : 'Save' }}
+                            </ng-container>
+                            <ng-container *ngIf="mode=='edit'">
+                                {{ isLoading ? ' Updating...' : 'Update' }}
+                            </ng-container>
+                        </div>
+                    </button>
+                </div>
+            </form>
+
+        </mat-card>
+    </main>
+</section>

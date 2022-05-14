@@ -1,0 +1,23 @@
+<mat-card class="d-flex flex-column align-items-center justify-content-center">
+    <div class=" d-flex justify-content-center">
+        <div mat-card-avatar class="header-image"></div>
+    </div>
+    <div class="pt-3 overflow-hidden">
+        <mat-card-content>
+            <p><span class="fw-bold">Name: </span><span class="text-capitalize">{{ user.name }}</span></p>
+            <p><span class="fw-bold">Email: </span><span class="text-lowercase">{{ user.email }}</span></p>
+            <p><span class="fw-bold">Role: </span><span
+                    class="text-capitalize">{{ user.role? user.role.name : 'No Role' }}</span></p>
+        </mat-card-content>
+    </div>
+    <mat-card-actions class="mb-0">
+        <button mat-raised-button color="primary" (click)="onEditUser(user.id!)">
+            <mat-icon inline="true" class="fs-6">edit</mat-icon>
+            Edit
+        </button>
+        <button mat-raised-button color="warn" (click)="onDeleteUser(user.id!)">
+            <mat-icon inline="true" class="fs-6">delete</mat-icon>
+            Delete
+        </button>
+    </mat-card-actions>
+</mat-card>

@@ -28,7 +28,9 @@ export class AuthGuardService implements CanActivate {
   ): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.authS.isAuthenticated()) {
       this.utilityS.navigateToURL(ClientEndpoints.LOGIN).then(() => {
-        this.authS.setRedirectUrl(this.router.url);
+        if (this.router.url !== ClientEndpoints.LOGIN) {
+          this.authS.setRedirectUrl(this.router.url);
+        }
         this.notificationS.warn('Please login to continue.');
       });
       return false;

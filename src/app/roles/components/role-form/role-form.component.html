@@ -1,0 +1,49 @@
+<section class="d-flex flex-column gap-3">
+    <header class="d-flex justify-content-between align-items-center">
+        <h2 class="mb-0">New Role</h2>
+        <button mat-raised-button color="primary" (click)="backToRoleList()">
+            Back to List
+        </button>
+    </header>
+
+    <main>
+        <mat-card>
+            <form [formGroup]="roleFormGroup" (ngSubmit)="onSubmitRoleForm()">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Role Name</mat-label>
+                    <input type="text" name="role-name" matInput formControlName="name" placeholder="Enter role name">
+                    <mat-error *ngIf="roleFormGroup.get('name')?.hasError('required')">
+                        Role name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Role Description</mat-label>
+                    <textarea type="text" name="role-description" matInput formControlName="description"
+                        placeholder="Write role description">
+                        </textarea>
+                    <mat-error *ngIf="roleFormGroup.get('des')?.hasError('required')">
+                        Role description is required
+                    </mat-error>
+                </mat-form-field>
+
+                <div class="d-flex justify-content-center">
+                    <button mat-raised-button class="px-5" color="primary" type="submit" [disabled]="isLoading">
+                        <ng-container *ngIf="mode == 'create'">
+                            <div class="d-flex align-items-center">
+                                <mat-spinner *ngIf="isLoading" [diameter]="20" [strokeWidth]="3"></mat-spinner>
+                                <span>{{ isLoading? ' Creating...': 'Create' }}</span>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="mode == 'edit'">
+                            <div class="d-flex align-items-center">
+                                <mat-spinner *ngIf="isLoading" [diameter]="20" [strokeWidth]="3"></mat-spinner>
+                                <span>{{ isLoading? ' Updating...': 'Update' }}</span>
+                            </div>
+                        </ng-container>
+                    </button>
+                </div>
+            </form>
+        </mat-card>
+    </main>
+</section>
