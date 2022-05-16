@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, Subject, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 import { AuthUser } from 'src/app/core/classes/user.class';
 import { userRoles } from 'src/app/core/enums/constants';
 import { ApiEndpoints, ClientEndpoints } from 'src/app/core/enums/endpoints';
@@ -19,9 +19,12 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
     private redirectUrl: string = ClientEndpoints.DASHBOARD;
-    authUser = new Subject<User | null>();
     private tokenExpirationTimer: any;
+
+    authUserSubject$ = new BehaviorSubject<User | null>(null);
+    authUser$ = this.authUserSubject$.asObservable();
     navigationLinksSubject = new BehaviorSubject<Link[]>([]);
+    navigationLinnks$ = this.navigationLinksSubject.asObservable();
 
     constructor(
         private utilityS: UtilityService,
@@ -50,6 +53,7 @@ export class AuthService {
                         response.accessToken,
                         response.refreshToken
                     );
+                    this.getAuthUser()?.subscribe();
                     this.setNavigationLinks(response.user);
                 }),
                 map((response) => {
@@ -59,19 +63,22 @@ export class AuthService {
     }
 
     getAuthUser() {
-        return this.http
-            .get<{ message: string; user: User }>(
-                `${environment.apiUrl}${ApiEndpoints.USERS}${ApiEndpoints.AUTH_USER}`
-            )
-            .pipe(
-                map((response) => {
-                    this.authUser.next(response.user);
-                    return response.user;
-                }),
-                tap((response) => {
-                    this.setNavigationLinks(response);
-                })
-            );
+        if (this.isAuthenticated()) {
+            return this.http
+                .get<{ message: string; user: User }>(
+                    `${environment.apiUrl}${ApiEndpoints.USERS}${ApiEndpoints.AUTH_USER}`
+                )
+                .pipe(
+                    map((response) => {
+                        this.authUserSubject$.next(response.user);
+                        return response.user;
+                    }),
+                    tap((response) => {
+                        this.setNavigationLinks(response);
+                    })
+                );
+        }
+        return null;
     }
 
     private setNavigationLinks(response: User) {
@@ -115,7 +122,7 @@ export class AuthService {
     logout() {
         clearTimeout(this.tokenExpirationTimer);
         this.tokenExpirationTimer = null;
-        this.authUser.next(null);
+        this.authUserSubject$.next(null);
         this.storageS.clearLocalStorage();
         this.utilityS.navigateToURL(ClientEndpoints.LOGIN);
     }
@@ -153,5 +160,52 @@ export class AuthService {
             return !isTokenExpired;
         }
         return false;
+    }
+
+    isAuthUserAdmin() {
+        return this.getAuthUser()?.pipe(
+            map((user) => {
+                return user.role?.name === userRoles.ADMIN;
+            })
+        );
+        // if (this.isAuthenticated()) {
+        //     return this.authUser$.pipe(
+        //         map((user) => {
+        //             if (user?.role?.name == userRoles.ADMIN) {
+        //                 isAdmin = true;
+        //             }
+        //             return isAdmin;
+        //         })
+        //     );
+        // }
+    }
+
+    refreshToken() {
+        const loadedUser = <AuthUser>this.getStoredAuthUser();
+        if (!loadedUser) {
+            return;
+        }
+        return this.http
+            .post<{
+                message: string;
+                accessToken: string;
+                refreshToken: string;
+                user: User;
+            }>(
+                `${environment.apiUrl}${ApiEndpoints.USERS}${ApiEndpoints.REFRESH_TOKEN}`,
+                { refreshToken: loadedUser.refreshToken }
+            )
+            .pipe(
+                tap((response) => {
+                    this.handleAuthentication(
+                        response.accessToken,
+                        response.refreshToken
+                    );
+                    this.getAuthUser();
+                }),
+                map((response) => {
+                    return response.message;
+                })
+            );
     }
 }

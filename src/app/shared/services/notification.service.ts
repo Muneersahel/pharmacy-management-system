@@ -5,6 +5,9 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
   providedIn: 'root',
 })
 export class NotificationService {
+  showError(arg0: string) {
+      throw new Error('Method not implemented.');
+  }
   constructor(private readonly snackBar: MatSnackBar) {}
 
   default(message: string, isHandset?: boolean): void {

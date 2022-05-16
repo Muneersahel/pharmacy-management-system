@@ -4,6 +4,7 @@ import { Subject, Subscription, takeUntil } from 'rxjs';
 import { ClientEndpoints } from 'src/app/core/enums/endpoints';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { AuthService } from '../services/auth.service';
+import { UtilityService } from 'src/app/shared/services/utility.service';
 
 @Component({
     selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     constructor(
         private authS: AuthService,
-        private notificationS: NotificationService
+        private notificationS: NotificationService,
+        private utilityS: UtilityService
     ) {
         this.isLoginFormSubmitted = false;
         this.isPasswordVisible = false;
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        // this._ui.setTitle('Login');
+        this.utilityS.setPageTitle('Login');
     }
 
     get f() {

@@ -18,4 +18,6 @@ export enum ApiEndpoints {
     LOGIN = '/login',
     REGISTER = '/register',
     ROLES = '/roles',
+    REFRESH_TOKEN = '/refresh',
+    DRUGS = '/drugs',
 }

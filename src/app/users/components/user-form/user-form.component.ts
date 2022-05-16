@@ -47,8 +47,6 @@ export class UserFormComponent implements OnInit, OnDestroy {
 
         this.route.params.subscribe((params: Params) => {
             this.userId = params['userId'];
-            console.log(this.userId);
-
             if (this.userId) {
                 this.mode = 'edit';
                 this.userS

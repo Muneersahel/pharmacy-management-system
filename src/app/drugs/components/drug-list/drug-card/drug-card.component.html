@@ -1,0 +1,24 @@
+<mat-card class="d-flex flex-column align-items-center justify-content-center">
+    <img mat-card-lg-image [src]="imageUrl + drug.image" alt="">
+    <div class="pt-3 overflow-hidden">
+        <mat-card-content>
+            <p><span class="fw-bold">Name: </span><span class="text-capitalize">{{ drug.name }}</span></p>
+            <p><span class="fw-bold">Description: </span><span class="text-lowercase">{{ drug.description }}</span></p>
+            <p><span class="fw-bold">Price: </span><span>{{ drug.price | currency: 'TZS': 'symbol': '2.0' }}</span></p>
+        </mat-card-content>
+    </div>
+    <mat-card-actions class="mb-0">
+        <button mat-raised-button color="primary" (click)="onEdit()">
+            <mat-icon inline="true" class="fs-6">edit</mat-icon>
+            Edit
+        </button>
+        <button mat-raised-button color="accent" class="me-0" *ngIf="drug.deletedAt" (click)="onRestoreDrug()">
+            <mat-icon inline="true" class="fs-5">restore</mat-icon>
+            Restore
+        </button>
+        <button mat-raised-button class="me-0" color="warn" (click)="onDelete()">
+            <mat-icon inline="true" class="fs-6">delete</mat-icon>
+            Delete
+        </button>
+    </mat-card-actions>
+</mat-card>

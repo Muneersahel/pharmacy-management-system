@@ -1,0 +1,42 @@
+h1 {
+    margin-bottom: 0 !important;
+}
+
+#header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 1em 1rem;
+}
+
+#subheading {
+    color: gray;
+}
+
+#no {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    border-radius: 50%;
+    /* width: 25px;
+    height: 25px; */
+    color: white;
+    padding: 12px;
+    margin-right: 15px !important;
+    text-align: center;
+}
+
+.centered-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+@media only screen and (min-width: 350px) {
+    #header {
+        margin-left: 0;
+    }
+}

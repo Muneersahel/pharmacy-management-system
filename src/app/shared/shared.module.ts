@@ -4,9 +4,16 @@ import { MaterialModule } from './material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CapitalizePipe } from './pipes/capitalize.pipe';
 import { LoadingComponent } from './components/loading/loading.component';
+import { SimplePageComponent } from './components/simple-page/simple-page.component';
+import { TitleComponent } from './components/title/title.component';
 
 @NgModule({
-    declarations: [CapitalizePipe, LoadingComponent],
+    declarations: [
+        CapitalizePipe,
+        LoadingComponent,
+        SimplePageComponent,
+        TitleComponent,
+    ],
     imports: [CommonModule, MaterialModule, FormsModule, ReactiveFormsModule],
     exports: [
         MaterialModule,
@@ -14,6 +21,8 @@ import { LoadingComponent } from './components/loading/loading.component';
         ReactiveFormsModule,
         CapitalizePipe,
         LoadingComponent,
+        SimplePageComponent,
+        TitleComponent,
     ],
 })
 export class SharedModule {}

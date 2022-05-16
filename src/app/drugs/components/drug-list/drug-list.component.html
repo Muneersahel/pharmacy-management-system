@@ -1,14 +1,28 @@
 <section class="d-flex flex-column gap-3">
     <header class="d-flex justify-content-between align-items-center">
-        <h2 class="mb-0">Drug List ()</h2>
+        <h2 class="mb-0">Drug List ({{ drugList.count }})</h2>
         <button mat-raised-button color="primary" (click)="onAddDrug()">
             Add Drug
         </button>
     </header>
     <main class="row g-3" *ngIf="!isLoading; else loadDrugs">
-        <div class="col-12 col-md-4" *ngFor="let user of drugList">
-            <!-- <app-user-card (deleteUser)="deleteUser($event)" [user]="user"></app-user-card> -->
-        </div>
+        <ng-container *ngIf="drugList.drugs.length > 0; else noDrugs">
+            <div class="col-12 col-md-4" *ngFor="let drug of drugList.drugs">
+                <app-drug-card [drug]="drug" (deleteEvent)="onDeleteDrug($event)" (editEvent)="onEditDrug($event)"
+                    (restoreEvent)="onRestoreDrug($event)">
+                </app-drug-card>
+            </div>
+        </ng-container>
+
+        <ng-template #noDrugs>
+            <div class="col-12">
+                <mat-card class="py-5">
+                    <mat-card-content>
+                        <p class="text-center text-muted">No drugs found.</p>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </ng-template>
     </main>
     <ng-template #loadDrugs>
         <app-loading></app-loading>

@@ -5,8 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptorInterceptor } from './auth/interceptor/auth.interceptor';
+import { AuthInterceptor } from './auth/interceptor/auth.interceptor';
 import { MaterialModule } from './shared/material/material.module';
+import { ConnectionInterceptor } from './connection.intercept';
 
 @NgModule({
     declarations: [AppComponent],
@@ -20,7 +21,12 @@ import { MaterialModule } from './shared/material/material.module';
     providers: [
         {
             provide: HTTP_INTERCEPTORS,
-            useClass: AuthInterceptorInterceptor,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: ConnectionInterceptor,
             multi: true,
         },
     ],

@@ -22,7 +22,7 @@
                 <mat-icon inline="true" class="fs-2">account_circle</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before" yPosition="below">
-                <span mat-menu-item class="text-capitalize fw-bold">Hello, {{ authUser?.name }}</span>
+                <span mat-menu-item class="text-capitalize fw-bold">Hello, {{ (authUser$ | async)?.name }}</span>
                 <mat-divider></mat-divider>
                 <button mat-menu-item>
                     <mat-icon>account_circle</mat-icon>

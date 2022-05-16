@@ -1,57 +1,57 @@
 <section class="form-wrapper">
-  <mat-card class="form-container py-5 rounded-3 w-100">
-    <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmtLoginForm()">
-      <legend class="text-center fw-bold mb-4">Login Form</legend>
+    <mat-card class="form-container py-5 rounded-3 w-100">
+        <form [formGroup]="loginFormGroup" (ngSubmit)="onSubmtLoginForm()">
+            <legend class="text-center fw-bold mb-4">Login Form</legend>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Username [email]</mat-label>
-        <input type="email" spellcheck="false" name="email" matInput formControlName="email" spellcheck="false"
-          autofocus placeholder="example@domain.com">
-        <mat-error *ngIf="
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Username [email]</mat-label>
+                <input type="email" spellcheck="false" name="email" matInput formControlName="email" spellcheck="false"
+                    autofocus placeholder="example@domain.com">
+                <mat-error *ngIf="
           isLoginFormSubmitted || (f['email'].touched && f['email'].errors)
         ">
-          <span *ngIf="f['email'].errors?.['required']">
-            Username is required.
-          </span>
-          <span *ngIf="f['email'].errors?.['email']">
-            Email address is invalid
-          </span>
-        </mat-error>
-      </mat-form-field>
+                    <span *ngIf="f['email'].errors?.['required']">
+                        Username is required.
+                    </span>
+                    <span *ngIf="f['email'].errors?.['email']">
+                        Email address is invalid
+                    </span>
+                </mat-error>
+            </mat-form-field>
 
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Enter Your Password</mat-label>
-        <input name="password" matInput formControlName="password" placeholder="******" autocomplete="off"
-          [type]="isPasswordVisible ? 'text' : 'password'">
-        <button type="button" matSuffix mat-icon-button (click)="isPasswordVisible = !isPasswordVisible"
-          [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isPasswordVisible">
-          <mat-icon>
-            {{ isPasswordVisible ? "visibility" : "visibility_off" }}
-          </mat-icon>
-        </button>
-        <mat-error *ngIf="
+            <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Enter Your Password</mat-label>
+                <input name="password" matInput formControlName="password" placeholder="******" autocomplete="off"
+                    [type]="isPasswordVisible ? 'text' : 'password'">
+                <button type="button" matSuffix mat-icon-button (click)="isPasswordVisible = !isPasswordVisible"
+                    [attr.aria-label]="'Hide password'" [attr.aria-pressed]="isPasswordVisible">
+                    <mat-icon>
+                        {{ isPasswordVisible ? "visibility" : "visibility_off" }}
+                    </mat-icon>
+                </button>
+                <mat-error *ngIf="
           (isLoginFormSubmitted || f['password'].touched) &&
           f['password'].errors
         ">
-          <span *ngIf="f['password'].errors?.['required']">
-            Password is required.
-          </span>
-        </mat-error>
-      </mat-form-field>
+                    <span *ngIf="f['password'].errors?.['required']">
+                        Password is required.
+                    </span>
+                </mat-error>
+            </mat-form-field>
 
-      <button class="w-100 py-2" mat-raised-button color="primary" [disabled]="isLoading">
-        <div class="d-flex justify-content-center align-items-center">
-          <span *ngIf="isLoading">
-            <mat-spinner color="primary" [diameter]="20"></mat-spinner>
-          </span>
-          <span>{{isLoading? ' Loading...': 'Login'}}</span>
-        </div>
-      </button>
+            <button class="w-100 " mat-raised-button color="primary" [disabled]="isLoading">
+                <div class="d-flex justify-content-center align-items-center">
+                    <span *ngIf="isLoading">
+                        <mat-spinner color="primary" [diameter]="20"></mat-spinner>
+                    </span>
+                    <span>{{isLoading? ' Loading...': 'Login'}}</span>
+                </div>
+            </button>
 
-      <div class="mt-4 float-end">
-        <a [routerLink]="forgotPasswordRoute">Forgot Password?</a>
-      </div>
-    </form>
+            <div class="mt-4 float-end">
+                <a [routerLink]="forgotPasswordRoute">Forgot Password?</a>
+            </div>
+        </form>
 
-  </mat-card>
+    </mat-card>
 </section>

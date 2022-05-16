@@ -2,10 +2,8 @@ import { Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth/services/auth.service';
-import { ClientEndpoints } from './core/enums/endpoints';
 import { Link } from './core/interfaces/link.interface';
 import { User } from './core/interfaces/user.interface';
-import { NotificationService } from './shared/services/notification.service';
 import { UtilityService } from './shared/services/utility.service';
 
 @Component({
@@ -19,37 +17,26 @@ export class AppComponent {
     showSecureLayout = false;
     navigationLinks$: Observable<Link[]> = new Observable();
 
-    authUser: User = {} as User;
+    authUser$: Observable<User> | null;
     isDeviceSmall$: Observable<boolean>;
 
     constructor(
         private authS: AuthService,
         private router: Router,
-        private utilityS: UtilityService,
-        private notificationS: NotificationService
+        private utilityS: UtilityService
     ) {
         this.authS.autoLogin();
         this.isDeviceSmall$ = this.utilityS.isDeviceSmall$;
-        this.navigationLinks$ = this.authS.navigationLinksSubject;
+        this.authUser$ = this.authS.getAuthUser();
+        this.navigationLinks$ = this.authS.navigationLinnks$;
         this.router.events.forEach((event) => {
             if (event instanceof NavigationStart) {
-                this.showSecureLayout = event.url !== ClientEndpoints.LOGIN;
+                this.showSecureLayout = this.authS.isAuthenticated();
             }
         });
     }
 
-    ngOnInit(): void {
-        if (this.authS.isAuthenticated()) {
-            this.authS.getAuthUser().subscribe({
-                next: (user) => {
-                    this.authUser = user;
-                },
-                error: (err) => {
-                    this.notificationS.error(err);
-                },
-            });
-        }
-    }
+    ngOnInit(): void {}
 
     closeDrawer(drawer: any) {
         this.isDeviceSmall$.subscribe((isDeviceSmall) => {

@@ -1,0 +1,13 @@
+<!-- <div id="container"> -->
+<mat-card class="d-flex flex-column align-content-center">
+    <app-title no="{{number}}" title="{{title}}" subtitle="{{subtitle}}" [centerText]="centerText"></app-title>
+    <div *ngIf="icon" id="icon-container" class="ms-auto me-auto mb-4">
+        <mat-icon color="primary" class="icon" inline="true">{{icon}}</mat-icon>
+    </div>
+    <div class="text-center">
+        <button mat-flat-button color="primary" (click)="buttonClicked()" [disabled]="buttonDisabled">
+            {{buttonText}}
+        </button>
+    </div>
+</mat-card>
+<!-- </div> -->

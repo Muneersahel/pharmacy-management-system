@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
+import { AuthenticatedGuardService } from './auth/guards/authenticated-guard.service';
+import { NetworkAwarePreloadStrategy } from './network-aware-preloading.strategy';
+import { AdminGuardService } from './roles/guards/role-guard.service';
 
 const routes: Routes = [
     {
@@ -10,6 +13,7 @@ const routes: Routes = [
     },
     {
         path: 'auth',
+        canActivate: [AuthenticatedGuardService],
         loadChildren: () =>
             import('./auth/auth.module').then((m) => m.AuthModule),
     },
@@ -23,13 +27,13 @@ const routes: Routes = [
     },
     {
         path: 'users',
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService, AdminGuardService],
         loadChildren: () =>
             import('./users/users.module').then((m) => m.UsersModule),
     },
     {
         path: 'roles',
-        canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService, AdminGuardService],
         loadChildren: () =>
             import('./roles/roles.module').then((m) => m.RolesModule),
     },
@@ -42,7 +46,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
+    imports: [
+        RouterModule.forRoot(routes, {
+            preloadingStrategy: NetworkAwarePreloadStrategy,
+        }),
+    ],
     exports: [RouterModule],
 })
 export class AppRoutingModule {}
