@@ -44,3 +44,5 @@ Thumbs.db
 # enviroment files
 src/environments/environment.prod.ts
 .dccache
+
+.firebase

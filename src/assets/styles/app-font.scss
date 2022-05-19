@@ -1,120 +1,120 @@
 // Text color
 @mixin text-error() {
-  color: $error-color;
+    color: $error-color;
 }
 
 @mixin text-warn() {
-  color: $warn-color;
+    color: $warn-color;
 }
 
 @mixin text-success() {
-  color: $success-color;
+    color: $success-color;
 }
 
 @mixin text-info() {
-  color: $info-color;
+    color: $info-color;
 }
 
 @mixin text-primary() {
-  color: $primary-main;
+    color: $primary-color;
 }
 
 @mixin text-accent() {
-  color: $accent-color;
+    color: $accent-color;
 }
 
 @mixin text-background() {
-  color: $background-color;
+    color: $background-color;
 }
 
 @mixin text-highlight() {
-  color: $primary-main;
-  font-weight: 700;
-  cursor: pointer;
+    color: $primary-color;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 // Text color
 .text-error {
-  @include text-error();
+    @include text-error();
 }
 
 .text-warn {
-  @include text-warn();
+    @include text-warn();
 }
 
 .text-success {
-  @include text-success();
+    @include text-success();
 }
 
 .text-info {
-  @include text-info();
+    @include text-info();
 }
 
 .text-primary {
-  @include text-primary();
+    @include text-primary();
 }
 
 .text-accent {
-  @include text-accent();
+    @include text-accent();
 }
 
 .text-background {
-  @include text-background();
+    @include text-background();
 }
 
 .text-highlight {
-  @include text-highlight();
+    @include text-highlight();
 }
 
 // font weight
 @mixin font-weight-bold() {
-  font-weight: $font-weight-bold !important;
+    font-weight: $font-weight-bold !important;
 }
 
 @mixin font-weight-bolder() {
-  font-weight: $font-weight-bolder !important;
+    font-weight: $font-weight-bolder !important;
 }
 
 @mixin font-weight-regular() {
-  font-weight: $font-weight-regular !important;
+    font-weight: $font-weight-regular !important;
 }
 
 @mixin font-weight-normal() {
-  font-weight: $font-weight !important;
+    font-weight: $font-weight !important;
 }
 
 // Ellipsis
 
 @mixin text-ellipsis() {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .text-ellipsis {
-  @include text-ellipsis();
+    @include text-ellipsis();
 }
 
 @mixin text-center() {
-  text-align: center;
+    text-align: center;
 }
 
 .text-center {
-  @include text-center();
+    @include text-center();
 }
 
 .fw-normal {
-  @include font-weight-normal();
+    @include font-weight-normal();
 }
 
 .fw.regular {
-  @include font-weight-regular();
+    @include font-weight-regular();
 }
 
 .fw-bold {
-  @include font-weight-bold();
+    @include font-weight-bold();
 }
 
 .fw-bolder {
-  @include font-weight-bolder();
+    @include font-weight-bolder();
 }

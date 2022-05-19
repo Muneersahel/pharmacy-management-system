@@ -4,7 +4,7 @@
 
 @include mat.core();
 
-$app-primary: mat.define-palette(mat.$green-palette, 600, 400, 300);
+$app-primary: mat.define-palette(mat.$green-palette, 800, 400, 500);
 $app-accent: mat.define-palette(mat.$indigo-palette, 700);
 $app-info: mat.define-palette(mat.$light-blue-palette);
 $app-success: mat.define-palette(mat.$light-green-palette);
@@ -13,21 +13,21 @@ $app-warn: mat.define-palette(mat.$orange-palette);
 $app-background: mat.define-palette(mat.$gray-palette, 900);
 
 $notification: (
-  default: mat.get-color-from-palette($app-primary),
-  info: mat.get-color-from-palette($app-info),
-  success: mat.get-color-from-palette($app-success),
-  warning: mat.get-color-from-palette($app-accent),
-  error: mat.get-color-from-palette($app-error),
+    default: mat.get-color-from-palette($app-primary),
+    info: mat.get-color-from-palette($app-info),
+    success: mat.get-color-from-palette($app-success),
+    warning: mat.get-color-from-palette($app-accent),
+    error: mat.get-color-from-palette($app-error),
 );
 
 $mat-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $app-primary,
-      accent: $app-accent,
-      warn: $app-error,
-    ),
-  )
+    (
+        color: (
+            primary: $app-primary,
+            accent: $app-accent,
+            warn: $app-error,
+        ),
+    )
 );
 
 @include custom-components-theme($notification);
