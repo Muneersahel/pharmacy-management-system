@@ -1,13 +1,13 @@
-export enum userRoles {
-    ADMIN = 'admin',
-    ACCOUNTANT = 'accountant',
-    MANAGER = 'manager',
-    PHARMACIST = 'pharmacist',
+export enum UserRoles {
+    ADMIN = 'ADMIN',
+    CASHIER = 'CASHIER',
+    MANAGER = 'MANAGER',
+    PHARMACIST = 'PHARMACIST',
 }
 
 export const userRolesArray = [
-    userRoles.ADMIN,
-    userRoles.ACCOUNTANT,
-    userRoles.MANAGER,
-    userRoles.PHARMACIST,
+    UserRoles.ADMIN,
+    UserRoles.CASHIER,
+    UserRoles.MANAGER,
+    UserRoles.PHARMACIST,
 ];

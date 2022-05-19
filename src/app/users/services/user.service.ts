@@ -18,11 +18,11 @@ export class UserService {
         return this.http
             .get<{
                 message: string;
-                data: { count: number; users: User[] };
+                users: User[];
             }>(`${environment.apiUrl}${ApiEndpoints.USERS}`)
             .pipe(
                 tap((response) => {
-                    this.userList = response.data.users;
+                    this.userList = response.users;
                     this.userListSubject.next(this.userList);
                 })
             );

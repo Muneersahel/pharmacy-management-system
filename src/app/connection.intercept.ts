@@ -6,8 +6,9 @@ import {
     HttpErrorResponse,
     HttpEvent,
 } from '@angular/common/http';
-import { Observable, catchError, throwError, ObservableInput } from 'rxjs';
+import { Observable, catchError, ObservableInput, throwError } from 'rxjs';
 import { NotificationService } from './shared/services/notification.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ConnectionInterceptor implements HttpInterceptor {
@@ -17,22 +18,41 @@ export class ConnectionInterceptor implements HttpInterceptor {
         return next.handle(req).pipe(
             catchError(
                 (
-                    err: any,
+                    err: HttpErrorResponse,
                     caught: Observable<HttpEvent<any>>
                 ): ObservableInput<any> => {
-                    if (err instanceof HttpErrorResponse) {
-                        if (err.status === 0) {
+                    if (!environment.production) {
+                        console.log(err);
+                    }
+
+                    switch (err.status) {
+                        case 400:
+                            this.notificationS.error(err.error.errors);
+                            break;
+                        case 401:
+                            this.notificationS.error(err.error.errors);
+                            break;
+                        case 404:
+                            this.notificationS.error(err.error.errors);
+                            break;
+                        case 403:
+                            this.notificationS.error(err.error.errors);
+                            break;
+                        case 500:
                             // todo: redirect to 500 error page
                             this.notificationS.error(
                                 'Server is not responding. Please try again later.'
                             );
-                            return throwError(
-                                () =>
-                                    new Error('Unable to Connect to the Server')
+                            break;
+                        default:
+                            this.notificationS.error(
+                                'An error occurred. Please try again later.'
                             );
-                        }
+                            break;
                     }
-                    return throwError(() => new Error(err));
+
+                    // return of([]);
+                    return throwError(() => new Error(err.toString()));
                 }
             )
         );

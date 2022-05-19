@@ -1,4 +1,20 @@
-<mat-card class="d-flex flex-column align-items-center justify-content-center">
+<mat-card class="d-flex flex-column align-items-center justify-content-center h-100">
+    <div class="ms-auto mb-0 d-flex align-items-center">
+        <button mat-icon-button color="primary" (click)="onEditUser(user.id!)">
+            <mat-icon class="material-symbols-rounded">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" class="d-flex justify-content-center align-items-center"
+            (click)="onDeleteUser(user.id!)">
+            <ng-container *ngIf="!isDeleting; else deleting">
+                <mat-icon class="material-symbols-rounded">
+                    delete
+                </mat-icon>
+            </ng-container>
+            <ng-template #deleting>
+                <mat-spinner color="warn" [diameter]="17" [strokeWidth]="1"></mat-spinner>
+            </ng-template>
+        </button>
+    </div>
     <div class=" d-flex justify-content-center">
         <div mat-card-avatar class="header-image"></div>
     </div>
@@ -10,14 +26,4 @@
                     class="text-capitalize">{{ user.role? user.role.name : 'No Role' }}</span></p>
         </mat-card-content>
     </div>
-    <mat-card-actions class="mb-0">
-        <button mat-raised-button color="primary" (click)="onEditUser(user.id!)">
-            <mat-icon inline="true" class="fs-6">edit</mat-icon>
-            Edit
-        </button>
-        <button mat-raised-button color="warn" (click)="onDeleteUser(user.id!)">
-            <mat-icon inline="true" class="fs-6">delete</mat-icon>
-            Delete
-        </button>
-    </mat-card-actions>
 </mat-card>

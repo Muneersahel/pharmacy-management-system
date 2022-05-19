@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { ClientEndpoints } from 'src/app/core/enums/endpoints';
 import { Role } from 'src/app/core/interfaces/role.interface';
@@ -11,12 +11,11 @@ import { RoleService } from '../../services/role.service';
     templateUrl: './role-list.component.html',
     styleUrls: ['./role-list.component.scss'],
 })
-export class RoleListComponent implements OnInit {
+export class RoleListComponent implements OnInit, OnDestroy {
     isLoading: boolean = false;
-    roleList: { count: number; roles: Role[] } = {
-        count: 0,
-        roles: [],
-    };
+    roleList: Role[] = [];
+    isDeleting: boolean = false;
+    isRestoring: boolean = false;
     destroy$ = new Subject<void>();
 
     constructor(
@@ -31,10 +30,12 @@ export class RoleListComponent implements OnInit {
 
     getRoles() {
         this.isLoading = true;
-        this.roleS.getRoles().subscribe({
-            next: (response) => {
+        this.roleS.getRoles().pipe(takeUntil(this.destroy$)).subscribe();
+
+        this.roleS.rolesSubject.pipe(takeUntil(this.destroy$)).subscribe({
+            next: (roles) => {
                 this.isLoading = false;
-                this.roleList = response.data;
+                this.roleList = roles;
             },
             error: (err) => {
                 this.isLoading = false;
@@ -56,19 +57,24 @@ export class RoleListComponent implements OnInit {
     }
 
     onDeleteRole(role: Role) {
-        this.roleS.deleteRole(role.id).subscribe({
-            next: () => {
-                this.notificationS.success(
-                    `Role ${role.name} has been deleted successfully.`
-                );
-            },
-            error: (err) => {
-                this.notificationS.error(err.error.message);
-            },
-        });
+        if (confirm(`Are you sure you want to delete role ${role.name}?`)) {
+            this.isDeleting = true;
+            this.roleS.deleteRole(role.id).subscribe({
+                next: () => {
+                    this.notificationS.success(
+                        `Role ${role.name} has been deleted successfully.`
+                    );
+                    this.isDeleting = false;
+                },
+                error: () => {
+                    this.isDeleting = false;
+                },
+            });
+        }
     }
 
     onRestoreRole(role: Role) {
+        this.isRestoring = true;
         this.roleS
             .restoreRole(role.id)
             .pipe(takeUntil(this.destroy$))
@@ -77,10 +83,40 @@ export class RoleListComponent implements OnInit {
                     this.notificationS.success(
                         `Role ${role.name} has been restored successfully.`
                     );
+                    this.isRestoring = false;
                 },
-                error: (err) => {
-                    this.notificationS.error(err.error.message);
+                error: () => {
+                    this.isRestoring = false;
                 },
             });
+    }
+
+    onDeleteRolePermanently(role: Role) {
+        if (
+            confirm(
+                `Are you sure you want to delete role ${role.name} permanently?`
+            )
+        ) {
+            this.isDeleting = true;
+            this.roleS
+                .deleteRolePermanently(role.id)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                    next: () => {
+                        this.notificationS.success(
+                            `Role ${role.name} has been deleted permanently.`
+                        );
+                        this.isDeleting = false;
+                    },
+                    error: () => {
+                        this.isDeleting = false;
+                    },
+                });
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }

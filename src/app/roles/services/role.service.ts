@@ -17,11 +17,11 @@ export class RoleService {
         return this.http
             .get<{
                 message: string;
-                data: { count: number; roles: Role[] };
+                roles: Role[];
             }>(`${environment.apiUrl}${ApiEndpoints.ROLES}`)
             .pipe(
                 tap((response) => {
-                    this.roles = response.data.roles;
+                    this.roles = response.roles;
                     this.rolesSubject.next(this.roles);
                 })
             );
@@ -92,6 +92,22 @@ export class RoleService {
                         (role) => role.id === response.role.id
                     );
                     this.roles[index] = response.role;
+                    this.rolesSubject.next(this.roles);
+                })
+            );
+    }
+
+    deleteRolePermanently(id: number) {
+        return this.http
+            .delete<{ message: string; role: Role }>(
+                `${environment.apiUrl}${ApiEndpoints.ROLES}/${id}/permanently`
+            )
+            .pipe(
+                tap((response) => {
+                    this.roles = this.roles.filter(
+                        (role) => role.id !== response.role.id
+                    );
+
                     this.rolesSubject.next(this.roles);
                 })
             );

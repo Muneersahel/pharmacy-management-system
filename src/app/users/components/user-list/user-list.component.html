@@ -1,13 +1,13 @@
 <section class="d-flex flex-column gap-3">
     <header class="d-flex justify-content-between align-items-center">
-        <h2 class="mb-0">User List ({{ userList.count }})</h2>
+        <h2 class="mb-0">User List ({{ isLoading? '': userList.length }})</h2>
         <button mat-raised-button color="primary" (click)="onAddUser()">
             Add User
         </button>
     </header>
     <main class="row g-3" *ngIf="!isLoading; else loadUsers">
-        <div class="col-12 col-md-4" *ngFor="let user of userList.users">
-            <app-user-card (deleteUser)="deleteUser($event)" [user]="user"></app-user-card>
+        <div class="col-12 col-md-4" *ngFor="let user of userList">
+            <app-user-card (deleteUser)="deleteUser($event)" [user]="user" [isDeleting]="isDeletinUser"></app-user-card>
         </div>
     </main>
     <ng-template #loadUsers>

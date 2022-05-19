@@ -1,8 +1,8 @@
 import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
+    ActivatedRouteSnapshot,
+    CanActivate,
+    Router,
+    RouterStateSnapshot,
 } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -12,29 +12,34 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { ClientEndpoints } from 'src/app/core/enums/endpoints';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class AuthGuardService implements CanActivate {
-  constructor(
-    private authS: AuthService,
-    private notificationS: NotificationService,
-    private utilityS: UtilityService,
-    private router: Router
-  ) {}
+    constructor(
+        private authS: AuthService,
+        private notificationS: NotificationService,
+        private utilityS: UtilityService,
+        private router: Router
+    ) {}
 
-  canActivate(
-    _route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
-  ): Observable<boolean> | Promise<boolean> | boolean {
-    if (!this.authS.isAuthenticated()) {
-      this.utilityS.navigateToURL(ClientEndpoints.LOGIN).then(() => {
-        if (this.router.url !== ClientEndpoints.LOGIN) {
-          this.authS.setRedirectUrl(this.router.url);
+    canActivate(
+        _route: ActivatedRouteSnapshot,
+        _state: RouterStateSnapshot
+    ): Observable<boolean> | Promise<boolean> | boolean {
+        if (!this.authS.isAuthenticated()) {
+            this.utilityS
+                .navigateToURL(ClientEndpoints.LOGIN)
+                .then(() => {
+                    if (this.router.url !== ClientEndpoints.LOGIN) {
+                        this.authS.setRedirectUrl(this.router.url);
+                    }
+                    this.notificationS.warn('Please login to continue.');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            return false;
         }
-        this.notificationS.warn('Please login to continue.');
-      });
-      return false;
+        return true;
     }
-    return true;
-  }
 }

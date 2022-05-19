@@ -1,42 +1,18 @@
 <section class="d-flex flex-column gap-3">
     <header class="d-flex justify-content-between align-items-center">
-        <h2 class="mb-0">Role List ({{ roleList.count }})</h2>
+        <h2 class="mb-0">Role List ({{ isLoading ? '': roleList.length }})</h2>
         <button mat-raised-button color="primary" (click)="onAddRole()">
             Add Role
         </button>
     </header>
     <main class="row g-3" *ngIf="!isLoading; else loadRoles">
-        <div class="col-12 col-md-4" *ngFor="let role of roleList.roles">
-            <mat-card class="d-flex flex-column align-items-center justify-content-center">
-                <mat-card-header>
-                    <mat-card-title>
-                        <span class="text-capitalize">{{ role.name }}</span>
-                        <span class="text-muted" *ngIf="role.deletedAt">
-                            <mat-icon>delete</mat-icon>
-                        </span>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <p class="text-capitalize">{{ role.description }}</p>
-                </mat-card-content>
-                <mat-card-actions class="mb-0">
-                    <button mat-raised-button color="primary" (click)="onEditRole(role)">
-                        <mat-icon inline="true" class="fs-5">edit</mat-icon>
-                        Edit
-                    </button>
-                    <button mat-raised-button color="accent" *ngIf="role.deletedAt" (click)="onRestoreRole(role)">
-                        <mat-icon inline="true" class="fs-5">restore</mat-icon>
-                        Restore
-                    </button>
-                    <button mat-raised-button color="warn" (click)="onDeleteRole(role)">
-                        <mat-icon inline="true" class="fs-5">delete</mat-icon>
-                        Delete
-                    </button>
-                </mat-card-actions>
-            </mat-card>
+        <div class="col-12 col-md-6 col-xl-4" *ngFor="let role of roleList">
+            <app-role-card [role]="role" (editRole)="onEditRole($event)" (deleteRole)="onDeleteRole($event)"
+                (deleteRolePermanently)="onDeleteRolePermanently($event)" (retoreRole)="onRestoreRole($event)"
+                [isDeleting]="isDeleting" [isRestoring]="isRestoring">
+            </app-role-card>
         </div>
     </main>
-
     <ng-template #loadRoles>
         <app-loading></app-loading>
     </ng-template>

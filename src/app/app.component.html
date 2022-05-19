@@ -5,7 +5,7 @@
         <mat-nav-list *ngIf="showSecureLayout">
             <a mat-list-item *ngFor="let navigationLink of navigationLinks$ | async" [routerLink]="navigationLink.route"
                 routerLinkActive="active" (click)="closeDrawer(drawer)">
-                <mat-icon class="me-3">{{ navigationLink.icon }}</mat-icon>
+                <mat-icon class="material-symbols-rounded me-3">{{ navigationLink.icon }}</mat-icon>
                 {{ navigationLink.label }}
             </a>
         </mat-nav-list>
@@ -14,22 +14,22 @@
         <mat-toolbar color="primary" class="d-flex justify-content-between" *ngIf="showSecureLayout">
             <div class="d-flex align-items-center">
                 <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
-                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+                    <mat-icon class="material-symbols-rounded" aria-label="Side nav toggle icon">menu</mat-icon>
                 </button>
                 <span>PMS</span>
             </div>
             <button mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon inline="true" class="fs-2">account_circle</mat-icon>
+                <mat-icon class="fs-1" inline="true">account_circle</mat-icon>
             </button>
             <mat-menu #menu="matMenu" xPosition="before" yPosition="below">
                 <span mat-menu-item class="text-capitalize fw-bold">Hello, {{ (authUser$ | async)?.name }}</span>
                 <mat-divider></mat-divider>
                 <button mat-menu-item>
-                    <mat-icon>account_circle</mat-icon>
+                    <mat-icon class="material-symbols-rounded">account_circle_full</mat-icon>
                     Profile
                 </button>
                 <button mat-menu-item (click)="logout()">
-                    <mat-icon>logout</mat-icon>
+                    <mat-icon class="material-symbols-rounded">logout</mat-icon>
                     Logout
                 </button>
             </mat-menu>

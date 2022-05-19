@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoleListComponent } from './components/role-list/role-list.component';
 import { RoleFormComponent } from './components/role-form/role-form.component';
 import { SharedModule } from '../shared/shared.module';
+import { RoleCardComponent } from './components/role-list/role-card/role-card.component';
 
 const routes: Routes = [
     { path: '', component: RoleListComponent },
@@ -12,7 +13,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [RoleListComponent, RoleFormComponent],
+    declarations: [RoleListComponent, RoleFormComponent, RoleCardComponent],
     imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
 })
 export class RolesModule {}

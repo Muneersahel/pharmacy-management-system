@@ -11,6 +11,7 @@ import { UtilityService } from 'src/app/shared/services/utility.service';
 export class UserCardComponent implements OnInit {
     @Input() user: User = {} as User;
     @Output() deleteUser = new EventEmitter<number>();
+    @Input() isDeleting: boolean = false;
 
     constructor(private utilityS: UtilityService) {}
 

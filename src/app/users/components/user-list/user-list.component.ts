@@ -12,13 +12,11 @@ import { UserService } from '../../services/user.service';
     styleUrls: ['./user-list.component.scss'],
 })
 export class UserListComponent implements OnInit, OnDestroy {
-    userList: { count: number; users: User[] } = {
-        count: 0,
-        users: [],
-    };
+    userList: User[] = [];
     destroy$ = new Subject<void>();
 
     isLoading: boolean = false;
+    isDeletinUser: boolean = false;
 
     constructor(
         private userS: UserService,
@@ -37,7 +35,7 @@ export class UserListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (response) => {
-                    this.userList = response.data;
+                    this.userList = response.users;
                     this.isLoading = false;
                 },
                 error: (err) => {
@@ -54,20 +52,21 @@ export class UserListComponent implements OnInit, OnDestroy {
     }
 
     deleteUser(id: number) {
-        this.userS
-            .deleteUser(id)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: (response) => {
-                    this.notificationS.success(response.message);
-                    this.getUsersList();
-                },
-                error: (err) => {
-                    console.log(err);
-
-                    this.notificationS.error(err.error.message);
-                },
-            });
+        this.isDeletinUser = true;
+        if (confirm('Are you sure you want to delete this user?')) {
+            this.userS
+                .deleteUser(id)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe({
+                    next: (response) => {
+                        this.notificationS.success(response.message);
+                        this.isDeletinUser = false;
+                    },
+                    error: () => {
+                        this.isDeletinUser = false;
+                    },
+                });
+        }
     }
 
     ngOnDestroy(): void {

@@ -74,10 +74,10 @@ export class UserFormComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: (response) => {
-                    this.userRolesArray = response.data.roles;
+                    this.userRolesArray = response.roles;
                 },
                 error: (err) => {
-                    this.notificationS.error(err.error.message);
+                    console.log(err);
                 },
             });
     }
@@ -107,9 +107,8 @@ export class UserFormComponent implements OnInit, OnDestroy {
                 this.notificationS.success(response.message);
                 this.backToUserList();
             },
-            error: (err) => {
+            error: () => {
                 this.isLoading = false;
-                this.notificationS.error(err.error.message);
             },
         });
     }

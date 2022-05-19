@@ -25,9 +25,14 @@ export class AuthenticatedGuardService implements CanActivate {
         _state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
         if (this.authS.isAuthenticated()) {
-            this.utilityS.navigateToURL(ClientEndpoints.DASHBOARD).then(() => {
-                this.notificationS.info('You are already logged in.');
-            });
+            this.utilityS
+                .navigateToURL(ClientEndpoints.DASHBOARD)
+                .then(() => {
+                    this.notificationS.info('You are already logged in.');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
             return false;
         }
         return true;

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, tap } from 'rxjs';
 import { AuthUser } from 'src/app/core/classes/user.class';
-import { userRoles } from 'src/app/core/enums/constants';
+import { UserRoles } from 'src/app/core/enums/constants';
 import { ApiEndpoints, ClientEndpoints } from 'src/app/core/enums/endpoints';
 import { Link } from 'src/app/core/interfaces/link.interface';
 import { User } from 'src/app/core/interfaces/user.interface';
@@ -82,10 +82,10 @@ export class AuthService {
     }
 
     private setNavigationLinks(response: User) {
-        if (response.role?.name == userRoles.ADMIN) {
+        if (response.role?.name == UserRoles.ADMIN) {
             this.navigationLinksSubject.next(adminNavigationLinks);
         }
-        if (response.role?.name == userRoles.PHARMACIST) {
+        if (response.role?.name == UserRoles.PHARMACIST) {
             this.navigationLinksSubject.next(pharmacistNavigationLinks);
         }
     }
@@ -165,7 +165,7 @@ export class AuthService {
     isAuthUserAdmin() {
         return this.getAuthUser()?.pipe(
             map((user) => {
-                return user.role?.name === userRoles.ADMIN;
+                return user.role?.name === UserRoles.ADMIN;
             })
         );
         // if (this.isAuthenticated()) {

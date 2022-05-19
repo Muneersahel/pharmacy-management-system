@@ -1,0 +1,41 @@
+<mat-card class="d-flex align-items-center justify-content-between gap-3 h-100">
+    <mat-card-content>
+        <mat-card-title class="d-flex align-items-center">
+            <h1 class="text-capitalize mb-0">{{ role.name }}</h1>
+            <mat-icon class="material-symbols-rounded text-muted" *ngIf="role.deletedAt">delete</mat-icon>
+        </mat-card-title>
+        <p class="text-capitalize">{{ role.description }}</p>
+    </mat-card-content>
+    <mat-card-actions class="mb-0 d-flex align-items-center">
+        <button mat-icon-button color="primary" (click)="onEditRole(role)">
+            <mat-icon class="material-symbols-rounded">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="accent" class="d-flex justify-content-center align-items-center"
+            *ngIf="role.deletedAt" (click)="onRestoreRole(role)">
+            <ng-container *ngIf="!isRestoring; else restoring">
+                <mat-icon class="material-symbols-rounded">restore</mat-icon>
+            </ng-container>
+            <ng-template #restoring>
+                <mat-spinner color="accent" [diameter]="18" [strokeWidth]="1"></mat-spinner>
+            </ng-template>
+        </button>
+        <button mat-icon-button color="warn" *ngIf="!role.deletedAt"
+            class="d-flex justify-content-center align-items-center" (click)="onDeleteRole(role)">
+            <ng-container *ngIf="!isDeleting; else deleting">
+                <mat-icon class="material-symbols-rounded">delete</mat-icon>
+            </ng-container>
+            <ng-template #deleting>
+                <mat-spinner color="warn" [diameter]="18" [strokeWidth]="1"></mat-spinner>
+            </ng-template>
+        </button>
+        <button mat-icon-button color="warn" *ngIf="role.deletedAt"
+            class="d-flex justify-content-center align-items-center" (click)="onDeleteRolePermanently(role)">
+            <ng-container *ngIf="!isDeleting; else deleting">
+                <mat-icon class="material-symbols-rounded">delete</mat-icon>
+            </ng-container>
+            <ng-template #deleting>
+                <mat-spinner color="warn" [diameter]="18" [strokeWidth]="1"></mat-spinner>
+            </ng-template>
+        </button>
+    </mat-card-actions>
+</mat-card>
