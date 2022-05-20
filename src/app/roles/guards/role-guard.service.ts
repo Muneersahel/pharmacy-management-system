@@ -3,10 +3,12 @@ import {
     CanActivate,
     ActivatedRouteSnapshot,
     RouterStateSnapshot,
+    Router,
 } from '@angular/router';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ClientEndpoints } from 'src/app/core/enums/endpoints';
+// import { ClientEndpoints } from 'src/app/core/enums/endpoints';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 
@@ -17,6 +19,7 @@ export class AdminGuardService implements CanActivate {
     constructor(
         private authS: AuthService,
         private utilityS: UtilityService,
+        private router: Router,
         private notificationS: NotificationService
     ) {}
 
@@ -24,17 +27,19 @@ export class AdminGuardService implements CanActivate {
         _route: ActivatedRouteSnapshot,
         _state: RouterStateSnapshot
     ): Observable<boolean> | Promise<boolean> | boolean {
-        this.authS.isAuthUserAdmin()?.subscribe({
-            next: (isAdmin) => {
-                if (!isAdmin) {
-                    this.notificationS.error(
-                        'You are not authorized to access this page'
-                    );
-                    this.utilityS.navigateToURL(ClientEndpoints.DASHBOARD);
+        return this.authS.isAuthUserAdmin().pipe(
+            map((isAdmin) => {
+                if (isAdmin) {
+                    return true;
                 }
-            },
-        });
 
-        return this.authS.isAuthUserAdmin() as Observable<boolean>;
+                console.log(this.router.url);
+                this.notificationS.error(
+                    'You are not authorized to access this page'
+                );
+                this.utilityS.navigateToURL(ClientEndpoints.DASHBOARD);
+                return false;
+            })
+        );
     }
 }
