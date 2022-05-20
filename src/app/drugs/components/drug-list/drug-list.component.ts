@@ -13,7 +13,7 @@ import { DrugService } from '../../services/drug.service';
 })
 export class DrugListComponent implements OnInit, OnDestroy {
     isLoading: boolean = false;
-    drugList: { count: number; drugs: Drug[] } = { count: 0, drugs: [] };
+    drugList: Drug[] = [];
     destroy$ = new Subject<void>();
 
     constructor(
@@ -33,8 +33,7 @@ export class DrugListComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe((response) => {
                 this.isLoading = false;
-                console.log(response.data);
-                this.drugList = response.data;
+                this.drugList = response.drugs;
             });
     }
 

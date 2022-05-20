@@ -30,12 +30,9 @@ export class DrugFormComponent implements OnInit, OnDestroy {
         private notificationS: NotificationService
     ) {
         this.drugFormGroup = new FormGroup({
-            name: new FormControl('', [Validators.required]),
+            genericName: new FormControl('', [Validators.required]),
+            brandName: new FormControl('', [Validators.required]),
             description: new FormControl('', [Validators.required]),
-            price: new FormControl('', [
-                Validators.required,
-                Validators.pattern(/^[0-9]*$/),
-            ]),
             image: new FormControl('', {
                 validators: [Validators.required],
                 asyncValidators: [mimeType],
@@ -55,9 +52,9 @@ export class DrugFormComponent implements OnInit, OnDestroy {
 
                         this.isLoading = false;
                         this.drugFormGroup.setValue({
-                            name: drug.name,
+                            genericName: drug.genericName,
+                            brandName: drug.brandName,
                             description: drug.description,
-                            price: drug.price,
                             image: drug.image,
                         });
                         this.imgPreviewLocalURL = this.apiImageUrl + drug.image;
@@ -91,9 +88,9 @@ export class DrugFormComponent implements OnInit, OnDestroy {
 
         this.isLoading = true;
         const formData = new FormData();
-        formData.append('name', this.drugFormGroup.value.name);
+        formData.append('genericName', this.drugFormGroup.value.genericName);
+        formData.append('brandName', this.drugFormGroup.value.brandName);
         formData.append('description', this.drugFormGroup.value.description);
-        formData.append('price', this.drugFormGroup.value.price);
         formData.append('image', this.drugFormGroup.value.image);
 
         let drugForm$;

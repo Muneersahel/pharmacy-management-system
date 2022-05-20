@@ -1,13 +1,13 @@
 <section class="d-flex flex-column gap-3">
     <header class="d-flex justify-content-between align-items-center">
-        <h2 class="mb-0">Drug List ({{ drugList.count }})</h2>
+        <h2 class="mb-0">Drug List ({{ drugList.length }})</h2>
         <button mat-raised-button color="primary" (click)="onAddDrug()">
             Add Drug
         </button>
     </header>
     <main class="row g-3" *ngIf="!isLoading; else loadDrugs">
-        <ng-container *ngIf="drugList.drugs.length > 0; else noDrugs">
-            <div class="col-12 col-md-4" *ngFor="let drug of drugList.drugs">
+        <ng-container *ngIf="drugList.length > 0; else noDrugs">
+            <div class="col-12 col-md-4" *ngFor="let drug of drugList">
                 <app-drug-card [drug]="drug" (deleteEvent)="onDeleteDrug($event)" (editEvent)="onEditDrug($event)"
                     (restoreEvent)="onRestoreDrug($event)">
                 </app-drug-card>

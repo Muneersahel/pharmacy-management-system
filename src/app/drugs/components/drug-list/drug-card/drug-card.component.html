@@ -2,9 +2,10 @@
     <img mat-card-lg-image [src]="imageUrl + drug.image" alt="">
     <div class="pt-3 overflow-hidden">
         <mat-card-content>
-            <p><span class="fw-bold">Name: </span><span class="text-capitalize">{{ drug.name }}</span></p>
+            <p><span class="fw-bold">Generic Name: </span><span class="text-capitalize">{{ drug.genericName }}</span>
+            </p>
+            <p><span class="fw-bold">Brand Name: </span><span class="text-capitalize">{{ drug.brandName }}</span></p>
             <p><span class="fw-bold">Description: </span><span class="text-lowercase">{{ drug.description }}</span></p>
-            <p><span class="fw-bold">Price: </span><span>{{ drug.price | currency: 'TZS': 'symbol': '2.0' }}</span></p>
         </mat-card-content>
     </div>
     <mat-card-actions class="mb-0">

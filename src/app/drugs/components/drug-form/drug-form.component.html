@@ -10,10 +10,20 @@
         <mat-card>
             <form [formGroup]="drugFormGroup" (ngSubmit)="onSubmitDrugForm()">
                 <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Drug Name</mat-label>
-                    <input type="text" name="drug-name" matInput formControlName="name" placeholder="Enter drug name">
-                    <mat-error *ngIf="drugFormGroup.get('name')?.hasError('required')">
-                        Drug name is required
+                    <mat-label>Generic Name</mat-label>
+                    <input type="text" name="drug-name" matInput formControlName="genericName"
+                        placeholder="Enter drug name">
+                    <mat-error *ngIf="drugFormGroup.get('genericName')?.hasError('required')">
+                        Drug generic name is required
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Brand Name</mat-label>
+                    <input type="text" name="drug-name" matInput formControlName="brandName"
+                        placeholder="Enter drug name">
+                    <mat-error *ngIf="drugFormGroup.get('brandName')?.hasError('required')">
+                        Drug brand name is required
                     </mat-error>
                 </mat-form-field>
 
@@ -23,16 +33,6 @@
                         placeholder="Enter drug description"></textarea>
                     <mat-error *ngIf="drugFormGroup.get('description')?.hasError('required')">
                         Drug description is required
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="outline" class="w-100">
-                    <mat-label>Drug Price</mat-label>
-                    <span matPrefix>TZS &nbsp;</span>
-                    <input type="number" min="0" inputmode="numeric" name="drug-price" matInput formControlName="price"
-                        placeholder="Enter drug price">
-                    <mat-error *ngIf="drugFormGroup.get('price')?.hasError('required')">
-                        Drug price is required
                     </mat-error>
                 </mat-form-field>
 

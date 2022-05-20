@@ -13,7 +13,7 @@ export class DrugCardComponent implements OnInit {
     @Output() deleteEvent = new EventEmitter<Drug>();
     @Output() restoreEvent = new EventEmitter<Drug>();
 
-    imageUrl = environment.apiBaseUrl + '/assets/images/';
+    imageUrl = environment.apiBaseUrl + '/images/';
 
     constructor() {}
 

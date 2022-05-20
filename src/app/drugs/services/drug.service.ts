@@ -19,14 +19,11 @@ export class DrugService {
         return this.http
             .get<{
                 message: string;
-                data: {
-                    count: number;
-                    drugs: Drug[];
-                };
+                drugs: Drug[];
             }>(`${environment.apiUrl}${ApiEndpoints.DRUGS}`)
             .pipe(
                 tap((response) => {
-                    this.drugList = response.data.drugs;
+                    this.drugList = response.drugs;
                     this.drugsSubject.next(this.drugList);
                 })
             );
