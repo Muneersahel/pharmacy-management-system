@@ -14,7 +14,7 @@ import { UtilityService } from './shared/services/utility.service';
 export class AppComponent {
     title = 'Pharmacy <anagement System';
 
-    showSecureLayout = false;
+    showSecureLayout$: Observable<boolean> = new Observable();
     navigationLinks$: Observable<Link[]> = new Observable();
 
     authUser$: Observable<User> | null;
@@ -28,10 +28,10 @@ export class AppComponent {
         this.authS.autoLogin();
         this.isDeviceSmall$ = this.utilityS.isDeviceSmall$;
         this.authUser$ = this.authS.getAuthUser();
-        this.navigationLinks$ = this.authS.navigationLinnks$;
+        this.navigationLinks$ = this.authS.navigationLinks$;
         this.router.events.forEach((event) => {
             if (event instanceof NavigationStart) {
-                this.showSecureLayout = this.authS.isAuthenticated();
+                this.showSecureLayout$ = this.authS.isAuthenticated();
             }
         });
     }

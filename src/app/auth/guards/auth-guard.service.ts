@@ -5,7 +5,7 @@ import {
     RouterStateSnapshot,
 } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UtilityService } from 'src/app/shared/services/utility.service';
 import { AuthService } from '../services/auth.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
@@ -25,21 +25,28 @@ export class AuthGuardService implements CanActivate {
     canActivate(
         _route: ActivatedRouteSnapshot,
         _state: RouterStateSnapshot
-    ): Observable<boolean> | Promise<boolean> | boolean {
-        if (!this.authS.isAuthenticated()) {
-            this.utilityS
-                .navigateToURL(ClientEndpoints.LOGIN)
-                .then(() => {
-                    if (this.router.url !== ClientEndpoints.LOGIN) {
-                        this.authS.setRedirectUrl(this.router.url);
-                    }
-                    this.notificationS.warn('Please login to continue.');
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-            return false;
-        }
-        return true;
+    ): Observable<boolean> | boolean {
+        return this.authS.isAuthenticated().pipe(
+            map((isAuthenticated) => {
+                if (isAuthenticated) {
+                    return true;
+                }
+
+                this.utilityS
+                    .navigateToURL(ClientEndpoints.LOGIN)
+                    .then(() => {
+                        if (this.router.url !== ClientEndpoints.LOGIN) {
+                            this.authS.setRedirectUrl(this.router.url);
+                        }
+
+                        this.notificationS.error('Please login to continue');
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                this.router.navigate([ClientEndpoints.LOGIN]);
+                return false;
+            })
+        );
     }
 }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { BehaviorSubject, map, of, tap } from 'rxjs';
 import { AuthUser } from 'src/app/core/classes/user.class';
 import { UserRoles } from 'src/app/core/enums/constants';
 import { ApiEndpoints, ClientEndpoints } from 'src/app/core/enums/endpoints';
@@ -20,11 +20,8 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
     private redirectUrl: string = ClientEndpoints.DASHBOARD;
     private tokenExpirationTimer: any;
-
-    authUserSubject$ = new BehaviorSubject<User | null>(null);
-    authUser$ = this.authUserSubject$.asObservable();
-    navigationLinksSubject = new BehaviorSubject<Link[]>([]);
-    navigationLinnks$ = this.navigationLinksSubject.asObservable();
+    private navigationLinksSubject = new BehaviorSubject<Link[]>([]);
+    navigationLinks$ = this.navigationLinksSubject.asObservable();
 
     constructor(
         private utilityS: UtilityService,
@@ -63,22 +60,18 @@ export class AuthService {
     }
 
     getAuthUser() {
-        if (this.isAuthenticated()) {
-            return this.http
-                .get<{ message: string; user: User }>(
-                    `${environment.apiUrl}${ApiEndpoints.USERS}${ApiEndpoints.AUTH_USER}`
-                )
-                .pipe(
-                    map((response) => {
-                        this.authUserSubject$.next(response.user);
-                        return response.user;
-                    }),
-                    tap((response) => {
-                        this.setNavigationLinks(response);
-                    })
-                );
-        }
-        return null;
+        return this.http
+            .get<{ message: string; user: User }>(
+                `${environment.apiUrl}${ApiEndpoints.USERS}${ApiEndpoints.AUTH_USER}`
+            )
+            .pipe(
+                map((response) => {
+                    return response.user;
+                }),
+                tap((response) => {
+                    this.setNavigationLinks(response);
+                })
+            );
     }
 
     private setNavigationLinks(response: User) {
@@ -113,7 +106,6 @@ export class AuthService {
             <Date>expirationDate
         );
 
-        // this.authUser.next(authUser);
         this.storageS.setLocalObject('authUser', authUser);
         this.utilityS.navigateToURL(this.redirectUrl);
         this.autoLogout(expirationTime);
@@ -122,7 +114,6 @@ export class AuthService {
     logout() {
         clearTimeout(this.tokenExpirationTimer);
         this.tokenExpirationTimer = null;
-        this.authUserSubject$.next(null);
         this.storageS.clearLocalStorage();
         this.utilityS.navigateToURL(ClientEndpoints.LOGIN);
     }
@@ -157,27 +148,17 @@ export class AuthService {
         if (loadedUser?.accessToken) {
             const isTokenExpired =
                 new Date(<Date>loadedUser.tokenExpirationDate) < new Date();
-            return !isTokenExpired;
+            return of(!isTokenExpired);
         }
-        return false;
+        return of(false);
     }
 
     isAuthUserAdmin() {
-        return this.getAuthUser()?.pipe(
+        return this.getAuthUser().pipe(
             map((user) => {
                 return user.role?.name === UserRoles.ADMIN;
             })
         );
-        // if (this.isAuthenticated()) {
-        //     return this.authUser$.pipe(
-        //         map((user) => {
-        //             if (user?.role?.name == userRoles.ADMIN) {
-        //                 isAdmin = true;
-        //             }
-        //             return isAdmin;
-        //         })
-        //     );
-        // }
     }
 
     refreshToken() {

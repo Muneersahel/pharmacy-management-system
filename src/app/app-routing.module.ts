@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './auth/guards/auth-guard.service';
 import { AuthenticatedGuardService } from './auth/guards/authenticated-guard.service';
-import { NetworkAwarePreloadStrategy } from './network-aware-preloading.strategy';
+// import { NetworkAwarePreloadStrategy } from './network-aware-preloading.strategy';
 import { AdminGuardService } from './roles/guards/role-guard.service';
 
 const routes: Routes = [
@@ -48,7 +48,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forRoot(routes, {
-            preloadingStrategy: NetworkAwarePreloadStrategy,
+            preloadingStrategy: PreloadAllModules,
         }),
     ],
     exports: [RouterModule],

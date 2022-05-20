@@ -1,8 +1,8 @@
 <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav" [attr.role]="(isDeviceSmall$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isDeviceSmall$ | async) ? 'over' : 'side'"
-        [opened]="(isDeviceSmall$ | async) === false && showSecureLayout">
-        <mat-nav-list *ngIf="showSecureLayout">
+        [opened]="(isDeviceSmall$ | async) === false && (showSecureLayout$ |async)">
+        <mat-nav-list *ngIf="showSecureLayout$ |async">
             <a mat-list-item *ngFor="let navigationLink of navigationLinks$ | async" [routerLink]="navigationLink.route"
                 routerLinkActive="active" (click)="closeDrawer(drawer)">
                 <mat-icon class="material-symbols-rounded me-3">{{ navigationLink.icon }}</mat-icon>
@@ -11,7 +11,7 @@
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-toolbar color="primary" class="d-flex justify-content-between" *ngIf="showSecureLayout">
+        <mat-toolbar color="primary" class="d-flex justify-content-between" *ngIf="showSecureLayout$ |async">
             <div class="d-flex align-items-center">
                 <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
                     <mat-icon class="material-symbols-rounded" aria-label="Side nav toggle icon">menu</mat-icon>
@@ -34,7 +34,7 @@
                 </button>
             </mat-menu>
         </mat-toolbar>
-        <main [ngClass]="{'container-fluid pt-3 pb-4': showSecureLayout}">
+        <main [ngClass]="{'container-fluid pt-3 pb-4': showSecureLayout$ |async}">
             <router-outlet></router-outlet>
         </main>
     </mat-sidenav-content>
